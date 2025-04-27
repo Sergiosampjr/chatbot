@@ -1,7 +1,7 @@
 import time
 import streamlit as st
 from vanna_calls import (
-    generate_question_cached,
+    generate_questions_cached,
     generate_sql_cached,
     run_sql_cached,
     generate_plotly_code_cached,
@@ -26,7 +26,9 @@ st.sidebar.checkbox("Mostrar código de plotagem", value = True,key = "mostar_co
 st.sidebar.checkbox("Mostrar Gráfico", value = True,key = "Mostrar_Gráfico")
 st.sidebar.checkbox("Mostrar resumo", value = True,key = "Mostrar_resumo")
 st.sidebar.checkbox("Mostrar perguntas de acompanhamento",value = True,key = "mostrar_acompanhamento")
-st.sidebar.checkbox("Repor", on_click = lambda: definir_pergunta(None), use_container_width = True)
+#repor = st.sidebar.checkbox("Repor")
+
+
 
 st.title("Assistente de Dennis")
 
@@ -34,11 +36,12 @@ st.title("Assistente de Dennis")
 def definir_pergunta(pergunta):
     st.session_state["Minha pergunta"] = pergunta
 
+
 mensagem_do_assistente_sugerida = st.chat_message("assistant", avatar = avatar_url)
 
 if mensagem_do_assistente_sugerida.button("Clique para mostrar sugestões de perguntas"):
     st.session_state["Minha pergunta"] = None
-    perguntas = generate_question_cached()
+    perguntas = generate_questions_cached()
     for i ,pergunta in enumerate(perguntas):
         time.sleep(0.05)
         botao = st.button(
@@ -61,7 +64,7 @@ if minha_pergunta:
     usuario_mensagem = st.chat_message("Usuário")
     usuario_mensagem.write(f"{minha_pergunta}")
 
-    sql = generate_sql_cached(pergunta = minha_pergunta)
+    sql = generate_sql_cached(question = minha_pergunta)
 
     if sql:
         if is_sql_valid_cached(sql = sql):

@@ -2,17 +2,17 @@ import streamlit as st
 
 from vanna.remote import VannaDefault
 
-
 @st.cache_resource(ttl=3600)
+
 def setup_vanna():
-    vn = VannaDefault(api_key=st.secrets.get("35359e86085d4caa9acb752ea96582c7"), model='chinook')
+    vn = VannaDefault(api_key=st.secrets.get("VANNA_API_KEY"), model='chinook')
     vn.connect_to_sqlite("https://vanna.ai/Chinook.sqlite")
     return vn
 
 @st.cache_data(show_spinner="Gerando exemplos de perguntas...")
 def generate_questions_cached():
     vn = setup_vanna()
-    return vn.generate_questions()
+    return vn.generate_questions
 
 
 @st.cache_data(show_spinner="Gerando SQL query ...")
