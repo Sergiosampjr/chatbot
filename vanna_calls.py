@@ -2,6 +2,33 @@ import streamlit as st
 
 from vanna.remote import VannaDefault
 
+
+from vanna.remote import VannaDefault
+
+API_KEY = "VANNA_API_KEY"
+
+vn = VannaDefault(api_key=API_KEY, model="chinook")
+vn.connect_to_sqlite("https://vanna.ai/Chinook.sqlite")
+
+try:
+    # Teste uma geração de SQL diretamente
+    sql = vn.generate_sql("Quais são os 5 principais artistas por vendas?")
+    print("SQL gerado:")
+    print(sql)
+except Exception as e:
+    print("Erro ao gerar SQL diretamente:")
+    print(e)
+
+
+
+
+
+
+
+
+
+
+
 @st.cache_resource(ttl=3600)
 
 def setup_vanna():
@@ -12,7 +39,7 @@ def setup_vanna():
 @st.cache_data(show_spinner="Gerando exemplos de perguntas...")
 def generate_questions_cached():
     vn = setup_vanna()
-    return vn.generate_questions
+    return vn.generate_questions()
 
 
 @st.cache_data(show_spinner="Gerando SQL query ...")
