@@ -100,9 +100,9 @@ if minha_pergunta:
                 else:
                     assistante_mensagem_tabela.dataframe(df)
             
-            if should_generate_chart_cached(pergunta = minha_pergunta,sql = sql,df = df):
+            if should_generate_chart_cached(question = minha_pergunta,sql = sql,df = df):
 
-                code = generate_plotly_code_cached(pergunta = minha_pergunta,sql = sql,df = df)
+                code = generate_plotly_code_cached(question = minha_pergunta,sql = sql,df = df)
 
                 if st.session_state.get("Mostrar código de plotagem", False):
                     codigo_plotagem_mensagem_cliente = st.chat_message(
@@ -130,7 +130,7 @@ if minha_pergunta:
                     "Assistant",
                     avatar = avatar_url        
                 )                   
-                resumo = generate_summary_cached(pergunta = minha_pergunta, df = df)
+                resumo = generate_summary_cached(question = minha_pergunta, df = df)
                 if resumo is not None:
                     assistante_mensagem_resumo.text(resumo)
 
@@ -141,7 +141,7 @@ if minha_pergunta:
                     avatar = avatar_url
                 )    
                 acompanhamento_perguntas = generate_followup_cached(
-                    pergunta = minha_pergunta,sql = sql,df = df        
+                    question = minha_pergunta,sql = sql,df = df        
 
                 )
                 st.session_state["df"] = None
